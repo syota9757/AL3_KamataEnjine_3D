@@ -12,6 +12,10 @@
 /// ゲームシーン
 /// </summary>
 class GameScene {
+	//ワールドトランスフォーム
+	WorldTransform worldTransform_;
+	//ビュープロジェクション
+	ViewProjection viewProjection_;
 
 public: // メンバ関数
 	/// <summary>
@@ -43,6 +47,11 @@ private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
+	uint32_t textureHandle_ = 0;
+	//2Dテクスチャ
+	Sprite* sprite_ = nullptr;
+	//３Dモデル
+	Model* model_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用
