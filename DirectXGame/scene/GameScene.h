@@ -52,7 +52,8 @@ private: // メンバ変数
 	Sprite* sprite_ = nullptr;
 	//３Dモデル
 	Model* model_ = nullptr;
-
+	//ビュープロジェクション 
+	ViewProjection viewProjection_;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
