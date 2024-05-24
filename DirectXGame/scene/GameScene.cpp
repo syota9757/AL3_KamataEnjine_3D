@@ -18,17 +18,7 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	//ファイル名を指定してテクスチャを読み込む
-	TextureHandle_ = TextureManager::Load("gaidoline.png");
-	//スプライトの生成
-	sprite_ = Sprite::Create(TextureHandle_, {100, 50});
-   //3Dモデルの生成
-	model_ = Model::Create();
 
-	//ワールドトランスフォームの初期化
-	worldTransform_.Initialize();
-	//ビュープロジェクションの初期化
-	viewProjection_.Initialize();
 
    //自キャラの生成
 	player_ = new Player();

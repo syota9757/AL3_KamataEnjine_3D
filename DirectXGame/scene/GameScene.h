@@ -20,6 +20,10 @@ class GameScene {
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 
+
+	//3Dモデルデータ
+   
+
 public: // メンバ関数
 	/// <summary>
 	/// コンストクラタ
