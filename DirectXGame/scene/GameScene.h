@@ -7,6 +7,11 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+<<<<<<< Updated upstream
+=======
+#include"player.h"
+#include<vector>
+>>>>>>> Stashed changes
 
 /// <summary>
 /// ゲームシーン
@@ -17,6 +22,17 @@ class GameScene {
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 
+<<<<<<< Updated upstream
+=======
+	//3Dモデル
+	Model* modelBlock_ = nullptr;
+	
+	
+
+	std::vector<WorldTransform*>worldTransformBlocks_;
+   
+
+>>>>>>> Stashed changes
 public: // メンバ関数
 	/// <summary>
 	/// コンストクラタ
