@@ -7,32 +7,20 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-<<<<<<< Updated upstream
-=======
+#include"DebugCamera.h"
+
 #include"player.h"
 #include<vector>
->>>>>>> Stashed changes
+
 
 /// <summary>
 /// ゲームシーン
 /// </summary>
 class GameScene {
-	//ワールドトランスフォーム
-	WorldTransform worldTransform_;
-	//ビュープロジェクション
-	ViewProjection viewProjection_;
-
-<<<<<<< Updated upstream
-=======
-	//3Dモデル
-	Model* modelBlock_ = nullptr;
 	
-	
-
-	std::vector<WorldTransform*>worldTransformBlocks_;
    
 
->>>>>>> Stashed changes
+
 public: // メンバ関数
 	/// <summary>
 	/// コンストクラタ
@@ -69,6 +57,23 @@ private: // メンバ変数
 	//３Dモデル
 	Model* model_ = nullptr;
 
+	//ワールドトランスフォーム
+	WorldTransform worldTransform_;
+	//ビュープロジェクション
+	ViewProjection viewProjection_;
+
+
+
+	//3Dモデル
+	Model* modelBlock_ = nullptr;
+	
+	
+
+	std::vector<std::vector<WorldTransform*>>worldTransformBlocks_;
+	
+	bool isDebugCameraActive_ = false;
+
+	DebugCamera* debugCamera_ = nullptr;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
