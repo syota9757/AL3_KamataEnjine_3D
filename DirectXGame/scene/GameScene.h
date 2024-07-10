@@ -7,15 +7,22 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include"player.h"
 
 /// <summary>
 /// ゲームシーン
 /// </summary>
 class GameScene {
+	//自キャラ
+	Player* player_ = nullptr;
 	//ワールドトランスフォーム
 	WorldTransform worldTransform_;
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
+
+
+	//3Dモデルデータ
+   
 
 public: // メンバ関数
 	/// <summary>
@@ -47,12 +54,13 @@ private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
-	uint32_t textureHandle_ = 0;
+	uint32_t TextureHandle_ = 0;
 	//2Dテクスチャ
 	Sprite* sprite_ = nullptr;
 	//３Dモデル
 	Model* model_ = nullptr;
 
+	
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
