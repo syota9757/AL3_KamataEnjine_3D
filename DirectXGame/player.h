@@ -10,14 +10,12 @@
 class Player
 {
 private:
-//	//ワールド変換データ
-//	WorldTransform worldTransform_;
-//	//モデル
-////	Model* model_ = nullptr;
-//	//テクスチャハンドル
-//	uint32_t textureHandle_ = 0u;
-//
-//	ViewProjection* viewProjection_ = nullptr;
+	//ワールド変換データ
+	WorldTransform worldTransform_;
+	//モデル
+	Model* model_ = nullptr;
+
+	ViewProjection* viewProjection_ = nullptr;
 
 public:
 	///<summary>
@@ -25,7 +23,7 @@ public:
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="textuHandle">テクスチャハンドル</param>
-	void Initialize(Model*model,uint32_t textuHandle,ViewProjection*viewProjection);
+	void Initialize(Model*model,ViewProjection*viewProjection);
 
 	///<summary>
 	///更新

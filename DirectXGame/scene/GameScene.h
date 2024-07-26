@@ -57,7 +57,7 @@ private: // メンバ変数
 	//３Dモデル
 	Model* model_ = nullptr;
 
-	//ワールドトランスフォーム
+	//ワールドトランスフォーム;
 	WorldTransform worldTransform_;
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
@@ -67,7 +67,7 @@ private: // メンバ変数
 	//3Dモデル
 	Model* modelBlock_ = nullptr;
 	
-	
+	Model* modelSkydome_ = nullptr;
 
 	std::vector<std::vector<WorldTransform*>>worldTransformBlocks_;
 	

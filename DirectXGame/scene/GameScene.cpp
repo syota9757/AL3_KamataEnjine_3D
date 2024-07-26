@@ -12,8 +12,9 @@ GameScene::GameScene() {}
 GameScene::~ GameScene() {
 	delete sprite_;
 	delete model_;
+	
 	delete debugCamera_;
-
+	delete modelSkydome_;
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			delete worldTransformBlock;
@@ -21,6 +22,7 @@ GameScene::~ GameScene() {
 	}
 
 	worldTransformBlocks_.clear();
+
 }
 
 void GameScene::Initialize() {
@@ -32,6 +34,8 @@ void GameScene::Initialize() {
 
 	//ファイル名を指定してテクスチャを読み込む
 	modelBlock_ = Model::CreateFromOBJ("cube");
+
+	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 	//スプライトの生成
    //3Dモデルの生成
 	model_ = Model::Create();
@@ -143,6 +147,8 @@ void GameScene::Draw() {
 			modelBlock_->Draw(*worldTransformBlock, viewProjection_);
 		}
 	}
+
+	modelSkydome_->Draw(worldTransform_, viewProjection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
