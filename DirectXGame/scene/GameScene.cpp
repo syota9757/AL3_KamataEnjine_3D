@@ -1,13 +1,28 @@
 #include "GameScene.h"
 #include "TextureManager.h"
+#include"MathtilityForText.h"
 #include <cassert>
+
+
+
 
 GameScene::GameScene() {}
 
 //デストラクタ
-GameScene::~GameScene() {
+GameScene::~ GameScene() {
 	delete sprite_;
 	delete model_;
+	
+	delete debugCamera_;
+	delete modelSkydome_;
+	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
+		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+			delete worldTransformBlock;
+		}
+	}
+
+	worldTransformBlocks_.clear();
+
 }
 
 void GameScene::Initialize() {
@@ -16,10 +31,12 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
+
 	//ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("gaidoline.png");
+	modelBlock_ = Model::CreateFromOBJ("cube");
+
+	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 	//スプライトの生成
-	sprite_ = Sprite::Create(textureHandle_, {100, 50});
    //3Dモデルの生成
 	model_ = Model::Create();
 
@@ -27,16 +44,66 @@ void GameScene::Initialize() {
 	worldTransform_.Initialize();
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
+
+	//要素数
+	const uint32_t kNumBlockVirtical = 10;
+	const uint32_t kNumBlockHorizontal = 20;
+	//ブロック1個分
+	const float kBlockWidth = 2.0f;
+	const float kBlockHeight = 2.0f;
+	//要素数を変更する
+	worldTransformBlocks_.resize(kNumBlockVirtical);
+
+
+	//キューブの生成
+	worldTransformBlocks_.resize(kNumBlockVirtical); 
+	for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
+		worldTransformBlocks_[i].resize(kNumBlockHorizontal);
+	}
+	for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
+		for (uint32_t j = 0; j < kNumBlockHorizontal; ++j) {
+			if ((i+j)%2==0) {
+				continue;
+			}
+			worldTransformBlocks_[i][j] = new WorldTransform();
+			worldTransformBlocks_[i][j]->Initialize();
+			worldTransformBlocks_[i][j]->translation_.x = kBlockWidth * j;
+			worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i;
+		}
+	}
+
+	debugCamera_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);
+
 }
 
 void GameScene::Update() {
-//スプライトの今の座標を取得
-	Vector2 position = sprite_->GetPosition();
-	//座標を{2,1}移動
-	position.x += 2.0f;
-	position.y += 1.0f;
-	//移動した座標をスプライトに反映	
-	sprite_->SetPosition(position);
+
+	debugCamera_->Update();
+	
+	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {  
+		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+			if (!worldTransformBlock)
+				continue;
+		
+			worldTransformBlock->UpdateMatrix();
+		}
+	}
+
+#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_SPACE)) {
+		isDebugCameraActive_ = !isDebugCameraActive_;
+	}
+#endif
+
+	if (isDebugCameraActive_) {
+		debugCamera_->Update();
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		viewProjection_.TransferMatrix();
+	}
+	else {
+		viewProjection_.UpdateMatrix();
+	}
 }
 
 void GameScene::Draw() {
@@ -51,9 +118,9 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
-	sprite_->Draw();
 
-	
+
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 	// 深度バッファクリア
@@ -68,7 +135,20 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	// 3Dモデル描画
-	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
+
+	//model_->Draw(worldTransform_, viewProjection_, textureHandle_);
+
+	//ブロックの描画
+	
+	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
+		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+			if (!worldTransformBlock)
+				continue;
+			modelBlock_->Draw(*worldTransformBlock, viewProjection_);
+		}
+	}
+
+	modelSkydome_->Draw(worldTransform_, viewProjection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

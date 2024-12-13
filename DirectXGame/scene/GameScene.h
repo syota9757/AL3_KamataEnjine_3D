@@ -7,15 +7,19 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include"DebugCamera.h"
+
+#include"player.h"
+#include<vector>
+
 
 /// <summary>
 /// ゲームシーン
 /// </summary>
 class GameScene {
-	//ワールドトランスフォーム
-	WorldTransform worldTransform_;
-	//ビュープロジェクション
-	ViewProjection viewProjection_;
+	
+   
+
 
 public: // メンバ関数
 	/// <summary>
@@ -53,6 +57,23 @@ private: // メンバ変数
 	//３Dモデル
 	Model* model_ = nullptr;
 
+	//ワールドトランスフォーム;
+	WorldTransform worldTransform_;
+	//ビュープロジェクション
+	ViewProjection viewProjection_;
+
+
+
+	//3Dモデル
+	Model* modelBlock_ = nullptr;
+	
+	Model* modelSkydome_ = nullptr;
+
+	std::vector<std::vector<WorldTransform*>>worldTransformBlocks_;
+	
+	bool isDebugCameraActive_ = false;
+
+	DebugCamera* debugCamera_ = nullptr;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
